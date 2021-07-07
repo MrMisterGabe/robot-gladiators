@@ -39,12 +39,22 @@ var fightOrSkip = function() {
 }
 
 var fight = function(enemy) {
-    // Alert players that they are starting the round
+
+    // keep track of who goes first
+    var isPlayerTurn = true;
+
+    // randomly change turn order
+    if(Math.random() > 0.5) {
+        isPlayerTurn = false;
+    }
+
     while (playerInfo.health > 0 && enemy.health > 0) {
-    // ask player if they'd like to fight or run
-    if (fightOrSkip()) {
-        // if true, leave fight by break loop
-        break;
+        // ask player if they'd like to fight or run
+        if (isPlayerTurn) {
+            if (fightOrSkip()) {
+                // if true, leave fight by break loop
+                break;
+        }
     }
     
     var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
@@ -84,9 +94,10 @@ var fight = function(enemy) {
        }else {
            window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
        }
-       }
-
-    };
+       // switch turn order for next round
+       isPlayerTurn = !isPlayerTurn;
+    }
+};
 
 // function to start a new game
 var startGame = function() {
